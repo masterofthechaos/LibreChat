@@ -1,3 +1,4 @@
+# ───── Global ignores ───────────────────────
 **/.circleci
 **/.editorconfig
 **/.dockerignore
@@ -6,12 +7,12 @@
 **/.vscode
 **/node_modules
 
-# Specific patterns to ignore
+# ───── Project-specific artifacts ───────────
 data-node
 meili_data*
-librechat*
+# librechat*          ← removed so librechat.yaml is copied into the image
 Dockerfile*
 docs
 
-# Ignore all hidden files
+# ───── Catch-all for dotfiles ───────────────
 .*
