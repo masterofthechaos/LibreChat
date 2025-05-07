@@ -1,16 +1,16 @@
-# ------------- LibreChat core -------------
+# ───────────────── LibreChat core ─────────────────
 version: 1.2.1
-cache: true                # set false to disable server-side caching
+cache: true
 
-# ------------- Upload limits --------------
+# ──────────────── Upload limits ───────────────────
 fileConfig:
-  serverFileSizeLimit: 900       # MB – hard ceiling for any single upload
-  avatarSizeLimit:      2        # MB – user-avatar images
+  serverFileSizeLimit: 900    # MB per file on server
+  avatarSizeLimit: 2
   endpoints:
     default:
-      totalSizeLimit:    900      # MB – per request
+      totalSizeLimit: 900     # MB per request
 
-# ------------- Interface tweaks -----------
+# ─────────────── Interface toggles ────────────────
 interface:
   customWelcome: "Welcome to LibreChat! Enjoy your experience."
   endpointsMenu: true
@@ -22,52 +22,41 @@ interface:
   bookmarks:     true
   multiConvo:    true
   agents:        true
-
-  # — Privacy / Terms links (edit whenever you want) —
   privacyPolicy:
-    externalUrl: 'https://librechat.ai/privacy-policy'
+    externalUrl: "https://librechat.ai/privacy-policy"
     openNewTab:  true
   termsOfService:
-    externalUrl: 'https://librechat.ai/tos'
+    externalUrl: "https://librechat.ai/tos"
     openNewTab:  true
-    modalAcceptance: false   # flip to true if you want the pop-up
+    modalAcceptance: false
 
-# ------------- User registration ----------
+# ────────────── User registration ────────────────
 registration:
   socialLogins: ['github','google','discord','facebook','apple','openid']
-  # allowedDomains:             # uncomment to lock sign-ups to work e-mails
-  #   - "your-company.com"
 
-# ------------- In-chat Web Actions --------
+# ──────────────── Web-actions allowlist ───────────
 actions:
   allowedDomains: ['google.com','swapi.dev','librechat.ai']
-  # Add more domains as you start using the browser / actions feature.
 
-# ============  ENDPOINTS  =================
+# ================= ENDPOINTS ======================
 endpoints:
 
-  # --- Native OpenAI endpoint -------------
-  # No API key needed here – LibreChat will read OPENAI_API_KEY and
-  # (optionally) OPENAI_BASE_URL from your Railway variables.
+  # native OpenAI endpoint (uses OPENAI_API_KEY env-var)
   openAI:
-    fetch: true                  # pull latest model catalogue automatically
-    # You can override defaults (model lists, params…) later if you want.
+    fetch: true
 
-  # --- Custom endpoints list -------------
+  # custom endpoints
   custom:
 
-    # ----------  OpenRouter  ---------------
-    - name: 'OpenRouter'
-      apiKey:  '${OPENROUTER_API_KEY}'      # create this var in Railway
-      baseURL: 'https://openrouter.ai/api/v1'
-      headers:                              # REQUIRED by OpenRouter
-        HTTP-Referer: 'https://micah.chat'  # your public URL
-        X-Title:      'MicahChat'
+    - name: "OpenRouter"
+      apiKey:  "${OPENROUTER_API_KEY}"        # set in Railway → Variables
+      baseURL: "https://openrouter.ai/api/v1"
+      headers:                                # required by OpenRouter
+        HTTP-Referer: "https://micah.chat"
+        X-Title:       "MicahChat"
       models:
-        default: ['meta-llama/llama-3-70b-instruct']  # initial drop-down
-        fetch:    true                                # pull full list
-      titleConvo:       true
-      titleModel:       'meta-llama/llama-3-70b-instruct'
-      dropParams:       ['stop']           # recommended by OR docs
-modelLabel: 'OpenRouter'       # what users will see
-# ----------  (Paste additional endpoints below as needed)  ----------
+        default: ["meta-llama/llama-3-70b-instruct"]
+        fetch:   true
+      titleConvo:  true
+      titleModel:  "meta-llama/llama-3-70b-instruct"
+      dropParams:  ["stop"]
